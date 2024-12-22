@@ -1,0 +1,220 @@
+<!DOCTYPE html>
+<html lang="en" >
+<head>
+  <meta charset="UTF-8">
+  <title>Form</title>
+  <link rel="stylesheet" href="./style.css">
+
+</head>
+<body>
+<!-- partial:index.partial.html -->
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+    <link rel="stylesheet" href="styles.css">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400..900;1,400..900&family=Work+Sans:ital,wght@0,100..900;1,100..900&display=swap" rel="stylesheet">
+  
+    <script src="menu.js" defer></script>
+   <!-- Bootstrap CSS -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <header>
+    <div class="header-container">
+        <div class="logo">
+            <a href="index.html">
+                <img src="https://cdn-icons-png.flaticon.com/256/10823/10823287.png" alt="Website Logo">
+            </a>
+        </div>
+        <div class="title-container">
+            <h1 class="main-title">Cooking in Uni</h1>
+            <h2 class="subtitle">Your guide to quick, affordable meals</h2>
+        </div>
+    </div>
+    <div id="menu-container"></div>
+</header>
+    <main>
+        <h2>Form</h2>
+        <p>Subscribe to gain access to all my recipes!</p>
+     <form action="submit_form.php" method="POST" id="userForm">
+    <label for="name">Name:</label>
+    <input type="text" id="name" name="name" required>
+    
+    <label for="surname">Surname:</label>
+    <input type="text" id="surname" name="surname" required>
+    
+    <label for="email">Email:</label>
+    <input type="email" id="email" name="email" required>
+    
+    <label for="phone">Phone:</label>
+    <input type="tel" id="phone" name="phone" required>
+    
+    <label for="age">Age:</label>
+    <input type="number" id="age" name="age" min="1" required>
+    
+    <label>
+        <input type="checkbox" id="terms" name="terms" required>
+        I accept the terms and conditions
+    </label>
+    
+    <button type="submit">Submit</button>
+</form>
+
+
+    </main>
+    <footer>
+        <p>&copy; 1776 Agathangelidou</p>
+    </footer>
+  
+<!-- Bootstrap JS with Popper -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha3/dist/js/bootstrap.bundle.min.js" defer></script>
+  
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const carouselElement = document.querySelector('#carouselExampleIndicators');
+        const carousel = new bootstrap.Carousel(carouselElement, {
+            interval: 3000, // Change slides every 3 seconds
+            wrap: true      // Loop back to the first slide
+        });
+    });
+</script>
+  
+</body>
+</html>
+
+<style>
+form {
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+form input {
+    width: 100%;
+    padding: 8px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+}
+
+form input[type="checkbox"] {
+    width: auto;
+    margin-right: 10px;
+}
+
+form label[for="terms"] {
+    display: flex;
+    align-items: center;
+}
+
+form button {
+    padding: 10px 15px;
+    background-color: #5d8493;
+    color: white;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+form button:hover {
+    background-color: #d4870d; 
+}
+</style> 
+
+<script>
+document.addEventListener("DOMContentLoaded", () => {
+    const form = document.getElementById("userForm");
+
+    // Validation function for each input
+    const validateForm = (e) => {
+        let valid = true;
+
+        // Name validation
+        const name = document.getElementById("name");
+        const nameIcon = document.getElementById("name-icon");
+        if (name.value.length < 2) {
+            valid = false;
+            nameIcon.innerHTML = "❌";
+            name.style.borderColor = "red";
+        } else {
+            nameIcon.innerHTML = "✔️"; 
+            name.style.borderColor = "green";
+        }
+
+        // Surname validation
+        const surname = document.getElementById("surname");
+        const surnameIcon = document.getElementById("surname-icon");
+        if (surname.value.length < 2) {
+            valid = false;
+            surnameIcon.innerHTML = "❌";
+            surname.style.borderColor = "red";
+        } else {
+            surnameIcon.innerHTML = "✔️";
+            surname.style.borderColor = "green";
+        }
+
+        // Email validation
+        const email = document.getElementById("email");
+        const emailIcon = document.getElementById("email-icon");
+        if (!email.value.includes("@")) {
+            valid = false;
+            emailIcon.innerHTML = "❌";
+            email.style.borderColor = "red";
+        } else {
+            emailIcon.innerHTML = "✔️"; 
+            email.style.borderColor = "green";
+        }
+
+        // Phone validation (10 digits)
+        const phone = document.getElementById("phone");
+        const phoneIcon = document.getElementById("phone-icon");
+        const phonePattern = /^\d{10}$/; 
+        if (!phonePattern.test(phone.value)) {
+            valid = false;
+            phoneIcon.innerHTML = "❌";
+            phone.style.borderColor = "red";
+        } else {
+            phoneIcon.innerHTML = "✔️";
+            phone.style.borderColor = "green";
+        }
+
+        // Age validation (must be numeric)
+        const age = document.getElementById("age");
+        const ageIcon = document.getElementById("age-icon");
+        if (isNaN(age.value) || age.value <= 0) {
+            valid = false;
+            ageIcon.innerHTML = "❌"; 
+            age.style.borderColor = "red";
+        } else {
+            ageIcon.innerHTML = "✔️"; 
+            age.style.borderColor = "green";
+        }
+
+        if (!valid) {
+            e.preventDefault();
+        }
+    };
+
+    form.addEventListener("submit", validateForm);
+
+    // live validation
+    form.addEventListener("input", validateForm);
+});
+
+</script>
+<!-- partial -->
+  <script  src="./script.js"></script>
+
+</body>
+</html>
