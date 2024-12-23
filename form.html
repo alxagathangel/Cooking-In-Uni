@@ -42,29 +42,56 @@
         <h2>Form</h2>
         <p>Subscribe to gain access to all my recipes!</p>
      <form action="submit_form.php" method="POST" id="userForm">
-    <label for="name">Name:</label>
-    <input type="text" id="name" name="name" required>
-    
-    <label for="surname">Surname:</label>
-    <input type="text" id="surname" name="surname" required>
-    
-    <label for="email">Email:</label>
-    <input type="email" id="email" name="email" required>
-    
-    <label for="phone">Phone:</label>
-    <input type="tel" id="phone" name="phone" required>
-    
-    <label for="age">Age:</label>
-    <input type="number" id="age" name="age" min="1" required>
-    
-    <label>
-        <input type="checkbox" id="terms" name="terms" required>
-        I accept the terms and conditions
-    </label>
-    
-    <button type="submit">Submit</button>
-</form>
-
+            <div class="form-group">
+                <label for="name">Name:</label>
+                <div class="input-container">
+                    <input type="text" id="name" name="name" required>
+                    <span class="icon"></span>
+                </div>
+                <small class="error-message"></small>
+            </div>
+            <div class="form-group">
+                <label for="surname">Surname:</label>
+                <div class="input-container">
+                    <input type="text" id="surname" name="surname" required>
+                    <span class="icon"></span>
+                </div>
+                <small class="error-message"></small>
+            </div>
+            <div class="form-group">
+                <label for="email">Email:</label>
+                <div class="input-container">
+                    <input type="email" id="email" name="email" required>
+                    <span class="icon"></span>
+                </div>
+                <small class="error-message"></small>
+            </div>
+            <div class="form-group">
+                <label for="phone">Phone:</label>
+                <div class="input-container">
+                    <input type="tel" id="phone" name="phone" required>
+                    <span class="icon"></span>
+                </div>
+                <small class="error-message"></small>
+            </div>
+            <div class="form-group">
+                <label for="age">Age:</label>
+                <div class="input-container">
+                    <input type="number" id="age" name="age" min="1" required>
+                    <span class="icon"></span>
+                </div>
+                <small class="error-message"></small>
+            </div>
+            <div class="form-group">
+                <label>
+                    <input type="checkbox" id="terms" name="terms" required>
+                    I accept the terms and conditions
+                </label>
+                <small class="error-message"></small>
+            </div>
+            <button type="submit">Submit</button>
+            <p id="form-message"></p>
+        </form>
 
     </main>
     <footer>
@@ -100,22 +127,38 @@ form label {
     font-weight: bold;
 }
 
-form input {
+.input-container {
+    position: relative;
+}
+
+.input-container input {
     width: 100%;
-    padding: 8px;
-    margin-bottom: 15px;
+    padding: 8px 30px 8px 10px; /* Leave space for the icon */
+    margin-bottom: 5px;
     border: 1px solid #ccc;
     border-radius: 4px;
+    box-sizing: border-box;
 }
 
-form input[type="checkbox"] {
-    width: auto;
-    margin-right: 10px;
+.input-container .icon {
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 18px;
+    pointer-events: none;
 }
 
-form label[for="terms"] {
-    display: flex;
-    align-items: center;
+form small.error-message {
+    color: red;
+    font-size: 12px;
+    margin-bottom: 15px;
+    display: none;
+}
+
+form input:focus {
+    outline: none;
+    border-color: #5d8493;
 }
 
 form button {
@@ -128,88 +171,109 @@ form button {
 }
 
 form button:hover {
-    background-color: #d4870d; 
+    background-color: #d4870d;
 }
+
+#form-message {
+    margin-top: 10px;
+    font-weight: bold;
+    text-align: center;
+}
+
 </style> 
 
 <script>
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("userForm");
+    const inputs = form.querySelectorAll("input:not([type='checkbox'])");
+    const checkbox = document.getElementById("terms");
+    const formMessage = document.getElementById("form-message");
 
-    // Validation function for each input
-    const validateForm = (e) => {
-        let valid = true;
+    // Helper function to validate individual inputs
+    const validateInput = (input) => {
+        const errorMessage = input.parentElement.nextElementSibling;
+        const icon = input.parentElement.querySelector(".icon");
+        let isValid = true;
 
-        // Name validation
-        const name = document.getElementById("name");
-        const nameIcon = document.getElementById("name-icon");
-        if (name.value.length < 2) {
-            valid = false;
-            nameIcon.innerHTML = "❌";
-            name.style.borderColor = "red";
+        if (input.id === "name" || input.id === "surname") {
+            if (input.value.trim().length < 2) {
+                isValid = false;
+                errorMessage.textContent = "Must be at least 2 characters.";
+            }
+        } else if (input.id === "email") {
+            if (!input.value.includes("@")) {
+                isValid = false;
+                errorMessage.textContent = "Must include '@'.";
+            }
+        } else if (input.id === "phone") {
+            if (!/^\d{10}$/.test(input.value)) {
+                isValid = false;
+                errorMessage.textContent = "Must be 10 digits.";
+            }
+        } else if (input.id === "age") {
+            if (isNaN(input.value) || input.value <= 0) {
+                isValid = false;
+                errorMessage.textContent = "Must be a valid number.";
+            }
+        }
+
+        if (isValid) {
+            errorMessage.style.display = "none";
+            icon.textContent = "✔️";
+            icon.style.color = "green";
+            input.style.borderColor = "green";
         } else {
-            nameIcon.innerHTML = "✔️"; 
-            name.style.borderColor = "green";
+            errorMessage.style.display = "block";
+            icon.textContent = "❌";
+            icon.style.color = "red";
+            input.style.borderColor = "red";
         }
 
-        // Surname validation
-        const surname = document.getElementById("surname");
-        const surnameIcon = document.getElementById("surname-icon");
-        if (surname.value.length < 2) {
-            valid = false;
-            surnameIcon.innerHTML = "❌";
-            surname.style.borderColor = "red";
-        } else {
-            surnameIcon.innerHTML = "✔️";
-            surname.style.borderColor = "green";
-        }
-
-        // Email validation
-        const email = document.getElementById("email");
-        const emailIcon = document.getElementById("email-icon");
-        if (!email.value.includes("@")) {
-            valid = false;
-            emailIcon.innerHTML = "❌";
-            email.style.borderColor = "red";
-        } else {
-            emailIcon.innerHTML = "✔️"; 
-            email.style.borderColor = "green";
-        }
-
-        // Phone validation (10 digits)
-        const phone = document.getElementById("phone");
-        const phoneIcon = document.getElementById("phone-icon");
-        const phonePattern = /^\d{10}$/; 
-        if (!phonePattern.test(phone.value)) {
-            valid = false;
-            phoneIcon.innerHTML = "❌";
-            phone.style.borderColor = "red";
-        } else {
-            phoneIcon.innerHTML = "✔️";
-            phone.style.borderColor = "green";
-        }
-
-        // Age validation (must be numeric)
-        const age = document.getElementById("age");
-        const ageIcon = document.getElementById("age-icon");
-        if (isNaN(age.value) || age.value <= 0) {
-            valid = false;
-            ageIcon.innerHTML = "❌"; 
-            age.style.borderColor = "red";
-        } else {
-            ageIcon.innerHTML = "✔️"; 
-            age.style.borderColor = "green";
-        }
-
-        if (!valid) {
-            e.preventDefault();
-        }
+        return isValid;
     };
 
-    form.addEventListener("submit", validateForm);
+    // Validate inputs on input event
+    inputs.forEach((input) => {
+        input.addEventListener("input", () => validateInput(input));
+    });
 
-    // live validation
-    form.addEventListener("input", validateForm);
+    // Validate checkbox
+    checkbox.addEventListener("change", () => {
+        const errorMessage = checkbox.nextElementSibling;
+        if (checkbox.checked) {
+            errorMessage.style.display = "none";
+        } else {
+            errorMessage.textContent = "You must accept the terms.";
+            errorMessage.style.display = "block";
+        }
+    });
+
+    // Form submission
+    form.addEventListener("submit", (e) => {
+        e.preventDefault();
+        let isFormValid = true;
+
+        inputs.forEach((input) => {
+            if (!validateInput(input)) {
+                isFormValid = false;
+            }
+        });
+
+        if (!checkbox.checked) {
+            const errorMessage = checkbox.nextElementSibling;
+            errorMessage.textContent = "You must accept the terms.";
+            errorMessage.style.display = "block";
+            isFormValid = false;
+        }
+
+        if (isFormValid) {
+            formMessage.textContent = "Thank you for submitting the form!";
+            formMessage.style.color = "green";
+        } else {
+            formMessage.textContent = "Please correct the highlighted fields.";
+            formMessage.style.color = "red";
+        }
+    });
 });
 
 </script>
