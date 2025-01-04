@@ -10,16 +10,18 @@ if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Retrieve form data
-$name = $_POST['name'];
-$surname = $_POST['surname'];
-$email = $_POST['email'];
-$phone = $_POST['phone'];
-$age = $_POST['age'];
+$name = isset($_POST['name']) ? $_POST['name'] : null;
+$surname = isset($_POST['surname']) ? $_POST['surname'] : null;
+$email = isset($_POST['email']) ? $_POST['email'] : null;
+$phone = isset($_POST['phone']) ? $_POST['phone'] : null;
+$age = isset($_POST['age']) ? intval($_POST['age']) : null;
 $termsAccepted = isset($_POST['terms']) ? 1 : 0;
 
-// Name + surname
-$fullName = $name . " " . $surname;
+if (!$name || !$surname || !$email || !$phone || !$age) {
+    die("Error: All fields are required!");
+}
+
+$fullName = $name . " " . $surname; // name + surname
 
 $sql = "INSERT INTO submissions (full_name, email, phone, age, terms_accepted) 
         VALUES ('$fullName', '$email', '$phone', $age, $termsAccepted)";
