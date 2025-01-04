@@ -4,15 +4,11 @@ $username = "root";
 $password = "";
 $dbName = "FormDataDB";
 
-// Create connection
 $conn = new mysqli($servername, $username, $password, $dbName);
-
-// Check connection
 if ($conn->connect_error) {
     die("Connection failed: " . $conn->connect_error);
 }
 
-// Find record by email
 function findRecord($conn, $email) {
     $sql = "SELECT * FROM submissions WHERE email = '$email'";
     $result = $conn->query($sql);
@@ -26,7 +22,6 @@ function findRecord($conn, $email) {
     }
 }
 
-// Update record by email
 function updateRecord($conn, $email, $newPhone) {
     $sql = "UPDATE submissions SET phone = '$newPhone' WHERE email = '$email'";
     if ($conn->query($sql) === TRUE) {
@@ -36,7 +31,6 @@ function updateRecord($conn, $email, $newPhone) {
     }
 }
 
-// Delete record by email
 function deleteRecord($conn, $email) {
     $sql = "DELETE FROM submissions WHERE email = '$email'";
     if ($conn->query($sql) === TRUE) {
@@ -46,7 +40,6 @@ function deleteRecord($conn, $email) {
     }
 }
 
-// Example usage
 if ($_GET['action'] === "find") {
     findRecord($conn, $_GET['email']);
 } elseif ($_GET['action'] === "update") {
