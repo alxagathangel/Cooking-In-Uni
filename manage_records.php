@@ -40,6 +40,7 @@ function deleteRecord($conn, $email) {
     }
 }
 
+/*
 if ($_GET['action'] === "find") {
     findRecord($conn, $_GET['email']);
 } elseif ($_GET['action'] === "update") {
@@ -47,6 +48,6 @@ if ($_GET['action'] === "find") {
 } elseif ($_GET['action'] === "delete") {
     deleteRecord($conn, $_GET['email']);
 }
-
+*/
 $conn->close();
 ?>
