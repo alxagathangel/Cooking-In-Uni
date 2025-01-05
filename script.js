@@ -1,8 +1,8 @@
 document.addEventListener("DOMContentLoaded", () => {
     const carouselElement = document.querySelector('#carouselExampleIndicators');
     const carousel = new bootstrap.Carousel(carouselElement, {
-        interval: 3000, // Change slides every 3 seconds
-        wrap: true      // Loop back to the first slide
+        interval: 3000, // change slide every 3sec
+        wrap: true      // loop back to 1st slide
     });
 });
 
