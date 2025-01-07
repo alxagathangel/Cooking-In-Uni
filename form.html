@@ -123,7 +123,7 @@ form label {
 
 .input-container input {
     width: 100%;
-    padding: 8px 30px 8px 10px; /* Leave space for the icon */
+    padding: 8px 30px 8px 10px; 
     margin-bottom: 5px;
     border: 1px solid #ccc;
     border-radius: 4px;
@@ -222,7 +222,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return isValid;
     };
 
-    // Validate inputs on input event
+    // Validate inputs
     inputs.forEach((input) => {
         input.addEventListener("input", () => validateInput(input));
     });
@@ -237,10 +237,9 @@ document.addEventListener("DOMContentLoaded", () => {
             errorMessage.style.display = "block";
         }
     });
-
-    // Form submission
+  
     form.addEventListener("submit", (e) => {
-        e.preventDefault();
+        //e.preventDefault();
         let isFormValid = true;
 
         inputs.forEach((input) => {
