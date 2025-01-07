@@ -173,6 +173,7 @@ form button:hover {
 </style> 
 
 <script>
+
 document.addEventListener("DOMContentLoaded", () => {
     const form = document.getElementById("userForm");
     const inputs = form.querySelectorAll("input:not([type='checkbox'])");
@@ -222,7 +223,7 @@ document.addEventListener("DOMContentLoaded", () => {
         return isValid;
     };
 
-    // Validate inputs
+    // Validate inputs on input event
     inputs.forEach((input) => {
         input.addEventListener("input", () => validateInput(input));
     });
@@ -237,9 +238,9 @@ document.addEventListener("DOMContentLoaded", () => {
             errorMessage.style.display = "block";
         }
     });
-  
+
+    // Form submission
     form.addEventListener("submit", (e) => {
-        //e.preventDefault();
         let isFormValid = true;
 
         inputs.forEach((input) => {
@@ -255,17 +256,19 @@ document.addEventListener("DOMContentLoaded", () => {
             isFormValid = false;
         }
 
-        if (isFormValid) {
-            formMessage.textContent = "Thank you for submitting the form!";
-            formMessage.style.color = "green";
-        } else {
+        if (!isFormValid) {
+            e.preventDefault(); // Prevent submission if the form is invalid
             formMessage.textContent = "Please correct the highlighted fields.";
             formMessage.style.color = "red";
+        } else {
+            formMessage.textContent = ""; // Clear any error message
+            // Allow the form to submit to insert_data.php
         }
     });
 });
-
 </script>
+
+
 <!-- partial -->
   <script  src="./script.js"></script>
 
