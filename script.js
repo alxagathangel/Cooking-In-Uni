@@ -1,12 +1,4 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const carouselElement = document.querySelector('#carouselExampleIndicators');
-    const carousel = new bootstrap.Carousel(carouselElement, {
-        interval: 3000, // change slide every 3sec
-        wrap: true      // loop back to 1st slide
-    });
-});
-
-document.addEventListener("DOMContentLoaded", () => {
     const menuHTML = `
         <nav>
             <ul class="menu">
